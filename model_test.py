@@ -6,15 +6,14 @@ from sklearn.metrics import confusion_matrix
 
 
 model = load_model('model.h5')
-class_list = ['batman', 'hulk', 'iron man', 'spiderman', 'superman']
 
 
 def main():
     test_batches = ImageDataGenerator(preprocessing_function=tf.keras.applications.vgg16.preprocess_input) \
-        .flow_from_directory(directory='data/test', target_size=(224, 224), classes=class_list, batch_size=10, shuffle=False)
+        .flow_from_directory(directory='data/test', target_size=(224, 224), classes=['batman', 'superman'], batch_size=10, shuffle=False)
 
-    assert test_batches.n == 40
-    assert test_batches.num_classes == 5
+    assert test_batches.n == 16
+    assert test_batches.num_classes == 2
 
     predictions = model.predict(x=test_batches, steps=len(test_batches), verbose=0)
 
